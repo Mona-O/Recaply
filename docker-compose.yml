@@ -1,0 +1,9 @@
+services: 
+  backend: 
+    build:
+      context: .
+      dockerfile: backend/DockerFile
+    container_name: recaply-backend
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
