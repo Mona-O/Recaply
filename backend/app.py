@@ -1,5 +1,4 @@
-
-from audio_service import record_meeting
+from service.audio_service import record_meeting , transcribe_meeting
 
 def main():
     duration = 10  # seconds
@@ -7,6 +6,8 @@ def main():
 
     print(f"Starting recording for {duration} seconds...")
     record_meeting(duration, filename)
+    transcribe_meeting(filename)
+    
     print(f"Recording saved as {filename}")
 
 if __name__ == "__main__":
