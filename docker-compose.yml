@@ -7,3 +7,9 @@ services:
     ports:
       - "8000:8000"
     restart: unless-stopped
+    devices:
+      - /dev/snd
+    volumes:
+      - /run/user/1000/pulse/native:/run/user/1000/pulse/native
+    environment:
+      - PULSE_SERVER=unix:/run/user/1000/pulse/native
