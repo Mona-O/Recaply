@@ -14,6 +14,9 @@ def record_meeting(duration=60, filename="meeting.wav"):
     write(filename, fs, myrecording)  
     return filename
     
+"""
+Model to test, maybe needs to be upgraded?
+"""
 def transcribe_meeting(file):
     model = whisper.load_model("small")
     result= model.transcribe(
