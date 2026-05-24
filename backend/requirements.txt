@@ -1,3 +1,7 @@
-git+https://github.com/openai/whisper.git 
-setuptools-rust
+openai-whisper
+sounddevice 
+wavio 
+pyaudio
+scipy
+pyannote.audio
 
