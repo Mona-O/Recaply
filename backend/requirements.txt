@@ -1,7 +1,7 @@
 openai-whisper
-setuptools-rust
 sounddevice 
 wavio 
 pyaudio
 scipy
+pyannote.audio
 
