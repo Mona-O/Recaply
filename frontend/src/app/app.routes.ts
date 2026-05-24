@@ -1,3 +1,7 @@
 import { Routes } from '@angular/router';
 
-export const routes: Routes = [];
+import { RecordingComponent } from './pages/recording/recording.component';
+
+export const routes: Routes = [
+  { path: '', component: RecordingComponent }
+];

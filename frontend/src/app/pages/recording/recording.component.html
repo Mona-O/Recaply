@@ -1,0 +1,24 @@
+<div class="container">
+
+    
+    <button *ngIf="!isRecording" (click)="startRecording()">
+      Record
+    </button>
+  
+    
+    <div *ngIf="isRecording">
+  
+      <canvas #waveCanvas></canvas>
+      <button (click)="pauseRecording()" *ngIf="!isPaused">
+        Pause
+      </button>
+      <button (click)="resumeRecording()" *ngIf="isPaused">
+        Resume
+      </button>
+      <button (click)="stopRecording()">
+        Stop
+      </button>
+  
+    </div>
+  
+  </div>
