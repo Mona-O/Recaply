@@ -6,3 +6,42 @@ canvas {
     background: #afafd9;
     border-radius: 8px;
   }
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  
+    min-height: 100vh;
+    gap: 20px;
+  
+    background: #ffffff;
+  }
+  
+  button {
+    background: #7ac0fd;
+    color: white;
+  
+    border: none;
+    border-radius: 16px;
+  
+    padding: 18px 40px;
+  
+    font-size: 22px;
+    font-weight: bold;
+  
+    cursor: pointer;
+  
+    transition: 0.2s ease;
+  }
+  
+  button:hover {
+    background: #5ca6f6;
+    transform: scale(1.05);
+  }
+  
+  button:active {
+    transform: scale(0.98);
+  }
+  
+  
