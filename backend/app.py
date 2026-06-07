@@ -1,14 +1,8 @@
-from service.audio_service import record_meeting , transcribe_meeting
-
+from fastapi import FastAPI
+from routers.report_router import router as report_router
 def main():
-    duration = 10  # seconds
-    filename = "meeting.wav"
-
-    print(f"Starting recording for {duration} seconds...")
-    record_meeting(duration, filename)
-    transcribe_meeting(filename)
-    
-    print(f"Recording saved as {filename}")
+    app = FastAPI()
+    app.include_router(report_router)
 
 if __name__ == "__main__":
     main()

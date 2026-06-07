@@ -4,4 +4,7 @@ wavio
 pyaudio
 scipy
 pyannote.audio
-
+fastapi-controllers
+mistralai
+python-dotenv
+python-multipart
