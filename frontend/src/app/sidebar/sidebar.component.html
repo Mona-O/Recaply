@@ -1,0 +1,47 @@
+<p-sidebar
+    [(visible)]="sidebarVisible"
+    position="left">
+
+    <div class="sidebar-header">
+        <h3>Recaply</h3>
+
+        <button
+            class="icon-button"
+            (click)="sidebarVisible = false">
+            <i class="material-icons">chevron_left</i>
+        </button>
+    </div>
+
+    <div class="sidebar-menu">
+        <button class="menu-button">
+            <i class="material-icons">mic</i>
+            <span>Record</span>
+        </button>
+
+        <button class="menu-button">
+            <i class="material-icons">history</i>
+            <span>History</span>
+        </button>
+
+        <button class="menu-button">
+            <i class="material-icons">person</i>
+            <span>Account</span>
+        </button>
+
+        <button class="menu-button">
+            <i class="material-icons">settings</i>
+            <span>Settings</span>
+        </button>
+    </div>
+
+</p-sidebar>
+
+<button
+    *ngIf="!sidebarVisible"
+    class="sidebar-toggle"
+    (click)="sidebarVisible = true">
+
+    <i class="material-icons">chevron_right</i>
+
+</button>
+
