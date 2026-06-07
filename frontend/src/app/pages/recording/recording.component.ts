@@ -1,5 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RecordingService } from '../../services/services/recording.service';
+
 @Component({
   selector: 'app-recording',
   imports: [CommonModule],
@@ -10,7 +12,9 @@ export class RecordingComponent {
 
   @ViewChild('waveCanvas', { static: false })
   canvasRef!: ElementRef<HTMLCanvasElement>;
-
+  constructor(
+    private recordingService: RecordingService
+  ) {}
   isRecording = false;
   isPaused = false;
   isDrawing = false; 
@@ -23,19 +27,35 @@ export class RecordingComponent {
   
 
   async startRecording() {
+
     this.isRecording = true;
-
-    this.mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  
+    this.mediaStream =
+      await this.recordingService.startRecording();
+  
     this.audioContext = new AudioContext();
-    this.analyser = this.audioContext.createAnalyser();
+  
+    this.analyser =
+      this.audioContext.createAnalyser();
+  
     this.analyser.fftSize = 256;
-    this.dataArray = new Uint8Array(this.analyser.frequencyBinCount);
-
-    this.source = this.audioContext.createMediaStreamSource(this.mediaStream);
+  
+    this.dataArray =
+      new Uint8Array(
+        this.analyser.frequencyBinCount
+      );
+  
+    this.source =
+      this.audioContext.createMediaStreamSource(
+        this.mediaStream
+      );
+  
     this.source.connect(this.analyser);
-
-   
-    setTimeout(() => this.drawWaveform(), 0);
+  
+    setTimeout(
+      () => this.drawWaveform(),
+      0
+    );
   }
 
   private drawWaveform = () => {
@@ -79,24 +99,60 @@ export class RecordingComponent {
   };
 
   pauseRecording() {
+
     this.isPaused = true;
+  
+    this.recordingService.pauseRecording();
+  
     this.audioContext.suspend();
+  
     this.isDrawing = false;
-    cancelAnimationFrame(this.animationId);
+  
+    cancelAnimationFrame(
+      this.animationId
+    );
   }
 
   resumeRecording() {
+
     this.isPaused = false;
+  
+    this.recordingService.resumeRecording();
+  
     this.audioContext.resume();
+  
     this.drawWaveform();
   }
 
-  stopRecording() {
+  async stopRecording() {
+
+    const audioBlob =
+      await this.recordingService.stopRecording();
+  
+    console.log(audioBlob);
+  
     this.isRecording = false;
     this.isPaused = false;
     this.isDrawing = false;
-    cancelAnimationFrame(this.animationId);
-    this.mediaStream.getTracks().forEach(t => t.stop());
-    this.audioContext.close();
+  
+    cancelAnimationFrame(
+      this.animationId
+    );
+  
+    await this.audioContext.close();
+  
+    // API UPLOAD
+    // Sauvegarde locale
+    const url = URL.createObjectURL(audioBlob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `meeting-${Date.now()}.webm`;
+
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url);
   }
 }
