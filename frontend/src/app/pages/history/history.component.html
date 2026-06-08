@@ -1,0 +1,70 @@
+<!-- history.component.html -->
+
+<div class="container">
+
+    <h1>Historique des comptes-rendus</h1>
+  
+    <div
+      class="report-card"
+      *ngFor="let report of reports">
+  
+      <div>
+  
+        <h3>
+          {{ report.filename }}
+        </h3>
+  
+        <p>
+          {{ report.created_at | date:'dd/MM/yyyy HH:mm' }}
+        </p>
+  
+      </div>
+  
+      <div class="actions">
+  
+        <button
+          class="view-btn"
+          (click)="viewReport(report)">
+          Consulter
+        </button>
+  
+        <button
+          class="download-btn"
+          (click)="downloadReport(report)">
+          Télécharger
+        </button>
+  
+        <button
+          class="delete-btn"
+          (click)="deleteReport(report.id)">
+          Supprimer
+        </button>
+  
+      </div>
+  
+    </div>
+  
+  </div>
+  
+  <div
+    class="modal-overlay"
+    *ngIf="selectedReport">
+  
+    <div class="modal">
+  
+      <h2>
+        {{ selectedReport.filename }}
+      </h2>
+  
+      <pre>
+  {{ selectedReport.content }}
+      </pre>
+  
+      <button
+        (click)="closeModal()">
+        Fermer
+      </button>
+  
+    </div>
+  
+  </div>

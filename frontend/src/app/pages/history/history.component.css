@@ -1,0 +1,91 @@
+.container {
+    padding: 40px;
+  }
+  
+  .report-card {
+  
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  
+    background: white;
+  
+    padding: 20px;
+  
+    border-radius: 12px;
+  
+    margin-bottom: 15px;
+  
+    box-shadow:
+      0 2px 10px rgba(0,0,0,.1);
+  }
+  
+  .actions {
+  
+    display: flex;
+    gap: 10px;
+  }
+  
+  button {
+  
+    border: none;
+  
+    border-radius: 8px;
+  
+    padding: 10px 16px;
+  
+    cursor: pointer;
+  }
+  
+  .view-btn {
+    background: #3b82f6;
+    color: white;
+  }
+  
+  .download-btn {
+    background: #22c55e;
+    color: white;
+  }
+  
+  .delete-btn {
+    background: #ef4444;
+    color: white;
+  }
+  
+  .modal-overlay {
+  
+    position: fixed;
+  
+    inset: 0;
+  
+    background:
+      rgba(0,0,0,.6);
+  
+    display: flex;
+  
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal {
+  
+    width: 80%;
+    max-width: 900px;
+  
+    max-height: 80vh;
+  
+    overflow-y: auto;
+  
+    background: white;
+  
+    padding: 30px;
+  
+    border-radius: 12px;
+  }
+  
+  pre {
+  
+    white-space: pre-wrap;
+  
+    font-family: inherit;
+  }
