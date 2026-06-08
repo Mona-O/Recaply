@@ -1,19 +1,33 @@
-import sounddevice as sd
 from scipy.io.wavfile import write , read
 import whisper
+import os
+import tempfile
 
 class AudioService:
+
     def __init__(self):
-        self.model = whisper.load_model("small")
+        self.model = None
+
+    def get_model(self):
+
+        if self.model is None:
+            self.model = whisper.load_model("small")
+
+        return self.model
 
     def transcribe_meeting(self, file):
 
-        # FastAPI UploadFile → save temporaire
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".webm") as tmp:
+        with tempfile.NamedTemporaryFile(
+            delete=False,
+            suffix=".webm"
+        ) as tmp:
+
             tmp.write(file.file.read())
             tmp_path = tmp.name
 
-        result = self.model.transcribe(
+        model = self.get_model()
+
+        result = model.transcribe(
             tmp_path,
             language="fr"
         )
@@ -21,14 +35,3 @@ class AudioService:
         os.remove(tmp_path)
 
         return result["text"]
-    
-    # def transcribe_meeting(file):
-    #     model = whisper.load_model("small")
-    #     result= model.transcribe(
-    #         file,
-    #         word_timestamps=True,
-    #         language="fr"
-    #     )
-    #     print(result["text"])
-
-
