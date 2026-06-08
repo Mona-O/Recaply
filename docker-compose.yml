@@ -17,6 +17,17 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile 
-    container_name : recaply-frontend
+    container_name: recaply-frontend
     ports: 
       - "4200:80"
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: recaply
+      POSTGRES_USER: recaply
+      POSTGRES_PASSWORD: recaply
+    volumes: 
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

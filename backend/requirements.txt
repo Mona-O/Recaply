@@ -5,3 +5,7 @@ mistralai
 python-dotenv
 python-multipart
 uvicorn
+sqlalchemy[asyncio]
+alembic
+asyncpg
+psycopg2-binary

@@ -1,4 +1,4 @@
-from config.config import MISTRAL_API_KEY
+from config.get_LLM_key import MISTRAL_API_KEY
 from mistralai.client import Mistral
 
 class LLMService: 

@@ -1,8 +1,13 @@
-from fastapi import APIRouter, UploadFile, File
+from fastapi import APIRouter, UploadFile, File, Depends
 from services.audio_service import AudioService
 from services.llm_service import LLMService
 from services.report_service import ReportService
+from sqlalchemy.orm import Session
+from sessions import get_db
+from services.report_db_service import ReportDBService
+import datetime
 import os
+from sqlalchemy.ext.asyncio import AsyncSession
 from datetime import datetime
 
 router = APIRouter()
@@ -13,9 +18,14 @@ report_service = ReportService(audio_service, llm_service)
 
 
 @router.post("/createReport")
-async def create_report(file: UploadFile = File(...)):
-
-    result = report_service.generate_report(file)
+async def create_report(file: UploadFile = File(...), db: AsyncSession = Depends(get_db)):
+    result="result"
+    #await result = report_service.generate_report(file)
+    #db_service = ReportDBService(db)
+    report = db_service.add_report(
+        filename="test"+datetime.datetime.now().timestamp()+".md",
+        content="result"
+    )
 
     # dossier de sortie
     output_dir = "generated_reports"
