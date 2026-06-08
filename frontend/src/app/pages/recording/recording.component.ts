@@ -1,19 +1,22 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RecordingService } from '../../services/services/recording.service';
 
+import { RecordingService } from '../../services/recording.service';
+import { ApiService } from '../../services/api.service';
+import { CommonModule, NgIf } from '@angular/common';
 @Component({
   selector: 'app-recording',
-  imports: [CommonModule],
+  imports: [CommonModule, NgIf],
   templateUrl: './recording.component.html',
-  styleUrls: ['./recording.component.css']
+  styleUrls: ['./recording.component.css'],
+  standalone : true
 })
 export class RecordingComponent {
 
   @ViewChild('waveCanvas', { static: false })
   canvasRef!: ElementRef<HTMLCanvasElement>;
   constructor(
-    private recordingService: RecordingService
+    private recordingService: RecordingService,
+    private apiService: ApiService
   ) {}
   isRecording = false;
   isPaused = false;
@@ -129,7 +132,6 @@ export class RecordingComponent {
     const audioBlob =
       await this.recordingService.stopRecording();
   
-    console.log(audioBlob);
   
     this.isRecording = false;
     this.isPaused = false;
@@ -140,19 +142,35 @@ export class RecordingComponent {
     );
   
     await this.audioContext.close();
-  
-    // API UPLOAD
-    // Sauvegarde locale
-    const url = URL.createObjectURL(audioBlob);
-
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `meeting-${Date.now()}.webm`;
-
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-
-    URL.revokeObjectURL(url);
+    this.apiService.sendRecording(audioBlob)
+    .subscribe({
+      next: (res) => {
+        console.log('REPORT:', res);
+    
+        const blob = new Blob(
+          [res.report],
+          { type: 'text/markdown' }
+        );
+    
+        const url = URL.createObjectURL(blob);
+    
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `report-${Date.now()}.md`;
+    
+        document.body.appendChild(a);
+        a.click();
+    
+        document.body.removeChild(a);
+    
+        URL.revokeObjectURL(url);
+      },
+    
+      error: (err) => {
+        console.error('Error sending recording:', err);
+      }
+    });
+    
   }
 }

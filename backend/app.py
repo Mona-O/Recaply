@@ -1,14 +1,16 @@
-from service.audio_service import record_meeting , transcribe_meeting
+from routers.report_router import router as report_router
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-def main():
-    duration = 10  # seconds
-    filename = "meeting.wav"
 
-    print(f"Starting recording for {duration} seconds...")
-    record_meeting(duration, filename)
-    transcribe_meeting(filename)
-    
-    print(f"Recording saved as {filename}")
+app = FastAPI()
 
-if __name__ == "__main__":
-    main()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:4200"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(report_router)
