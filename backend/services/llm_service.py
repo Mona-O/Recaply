@@ -24,5 +24,6 @@ class LLMService:
                 {"role": "user", "content": prompt}
             ]
         )
-
+        print("reponse llm")
+        print(response.choices[0].message.content)
         return response.choices[0].message.content

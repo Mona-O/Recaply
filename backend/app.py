@@ -1,14 +1,16 @@
-from fastapi import FastAPI
-import uvicorn
 from routers.report_router import router as report_router
-def main():
-    app = FastAPI()
-    app.include_router(report_router)
-    uvicorn.run(
-        app,
-        host="0.0.0.0",
-        port=8000
-    )
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-if __name__ == "__main__":
-    main()
+
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:4200"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(report_router)
