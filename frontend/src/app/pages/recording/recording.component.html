@@ -20,5 +20,18 @@
       </button>
   
     </div>
-  
+    <div class="loading-overlay" *ngIf="isLoading">
+      <div class="loading-box">
+        <div class="spinner"></div>
+        <p>Loading</p>
+      </div>
+    </div>
+    
+    <div class="loading-overlay" *ngIf="showSuccess">
+      <div class="loading-box success-box">
+        <div class="success-icon">✓</div>
+        <p>Done</p>
+      </div>
+    </div>
   </div>
+  
