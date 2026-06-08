@@ -33,5 +33,5 @@ class AudioService:
         )
 
         os.remove(tmp_path)
-        print (result["text"])
+        
         return result["text"]
