@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { delay, Observable, of } from 'rxjs';
+import { Report } from '../models/report.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +26,17 @@ export class ApiService {
       formData
     );
   }
+  getReports(): Observable<Report[]> {
+    return this.http.get<Report[]>(
+      `${this.baseUrl}/reports`
+    );
+  }
+
+  deleteReport(id: number): Observable<any> {
+    return this.http.delete(
+      `${this.baseUrl}/reports/${id}`
+    );
+  }
+
   
 }

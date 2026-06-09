@@ -13,14 +13,14 @@
     </div>
 
     <div class="sidebar-menu">
-        <button class="menu-button">
+        <button class="menu-button" (click)="goToRecord()">
             <i class="material-icons">mic</i>
             <span>Record</span>
         </button>
 
-        <button class="menu-button">
+        <button class="menu-button" (click)="goToHistory()">
             <i class="material-icons">history</i>
-            <span>History</span>
+            <span>My reports</span>
         </button>
 
         <button class="menu-button">
@@ -28,10 +28,7 @@
             <span>Account</span>
         </button>
 
-        <button class="menu-button">
-            <i class="material-icons">settings</i>
-            <span>Settings</span>
-        </button>
+        
     </div>
 
 </p-sidebar>
