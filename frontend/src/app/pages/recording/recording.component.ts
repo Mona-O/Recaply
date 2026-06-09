@@ -21,6 +21,9 @@ export class RecordingComponent {
   isRecording = false;
   isPaused = false;
   isDrawing = false; 
+  isLoading = false;
+  showSuccess = false;
+  reportContent = "";
   private audioContext!: AudioContext;
   private analyser!: AnalyserNode;
   private dataArray!: Uint8Array;
@@ -131,7 +134,7 @@ export class RecordingComponent {
 
     const audioBlob =
       await this.recordingService.stopRecording();
-  
+    
   
     this.isRecording = false;
     this.isPaused = false;
@@ -142,33 +145,37 @@ export class RecordingComponent {
     );
   
     await this.audioContext.close();
+    this.isLoading = true;
     this.apiService.sendRecording(audioBlob)
     .subscribe({
+
       next: (res) => {
-        console.log('REPORT:', res);
-    
-        const blob = new Blob(
-          [res.report],
-          { type: 'text/markdown' }
-        );
-    
-        const url = URL.createObjectURL(blob);
-    
-        
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `report-${Date.now()}.md`;
-    
-        document.body.appendChild(a);
-        a.click();
-    
-        document.body.removeChild(a);
-    
-        URL.revokeObjectURL(url);
+
+        this.isLoading = false;
+
+        this.reportContent = res.report;
+
+        this.showSuccess = true;
+
+        setTimeout(() => {
+          this.showSuccess = true;
+        }, 150);
+      
+        setTimeout(() => {
+          this.showSuccess = false;
+        }, 2500);
+
+        console.log('REPORT:', res.report);
       },
-    
+
       error: (err) => {
-        console.error('Error sending recording:', err);
+
+        this.isLoading = false;
+
+        console.error(
+          'Error sending recording:',
+          err
+        );
       }
     });
     

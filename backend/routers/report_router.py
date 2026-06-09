@@ -43,3 +43,13 @@ async def create_report(file: UploadFile = File(...), db: AsyncSession = Depends
         "report": result,
         "file_saved_at": filepath
     }
+    
+#get report
+# [
+#   {
+#     "id": 1,
+#     "filename": "report_20260608.md",
+#     "content": "# Compte-rendu...",
+#     "created_at": "2026-06-08T11:00:00"
+#   }
+# ]
