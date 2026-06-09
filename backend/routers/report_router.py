@@ -3,8 +3,8 @@ from services.audio_service import AudioService
 from services.llm_service import LLMService
 from services.report_service import ReportService
 from sqlalchemy.orm import Session
-from sessions import get_db
-from services.report_db_service import ReportDBService
+from config.database import get_db
+import services.database_service as db_service
 import datetime
 import os
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -22,9 +22,9 @@ async def create_report(file: UploadFile = File(...), db: AsyncSession = Depends
     result="result"
     #await result = report_service.generate_report(file)
     #db_service = ReportDBService(db)
-    report = db_service.add_report(
-        filename="test"+datetime.datetime.now().timestamp()+".md",
-        content="result"
+    report = await db_service.add_report(db=db,
+        title=f"report_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+        content=result
     )
 
     # dossier de sortie

@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, delete
 from models.report import Report
 
-async def create_report(db: AsyncSession, title: str, content: str) -> Report:
+async def add_report(db: AsyncSession, title: str, content: str) -> Report:
     report = Report(title=title, content=content)
     db.add(report)
     await db.commit()
