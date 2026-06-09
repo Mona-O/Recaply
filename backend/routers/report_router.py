@@ -19,9 +19,9 @@ report_service = ReportService(audio_service, llm_service)
 
 @router.post("/createReport")
 async def create_report(file: UploadFile = File(...), db: AsyncSession = Depends(get_db)):
-    result="result"
-    #await result = report_service.generate_report(file)
-    #db_service = ReportDBService(db)
+    
+    await result = report_service.generate_report(file)
+    
     report = await db_service.add_report(db=db,
         title=f"report_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
         content=result
