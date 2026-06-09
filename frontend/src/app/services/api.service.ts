@@ -14,27 +14,23 @@ export class ApiService {
   sendRecording(audioBlob: Blob): Observable<any> {
 
     const formData = new FormData();
-
-    formData.append(
-      'file',
-      audioBlob,
-      'meeting.webm'
-    );
-
+    formData.append('file', audioBlob, 'meeting.webm');
+  
     return this.http.post(
       `${this.baseUrl}/createReport`,
       formData
     );
   }
+
   getReports(): Observable<Report[]> {
     return this.http.get<Report[]>(
-      `${this.baseUrl}/reports`
+      `${this.baseUrl}/getReports`
     );
   }
 
   deleteReport(id: number): Observable<any> {
     return this.http.delete(
-      `${this.baseUrl}/reports/${id}`
+      `${this.baseUrl}/deleteReport/${id}`
     );
   }
 
