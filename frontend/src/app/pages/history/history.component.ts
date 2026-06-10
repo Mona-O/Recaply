@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../services/api.service';
 import { Report } from '../../models/report.model';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { marked } from 'marked';
 
 @Component({
   selector: 'app-history',
@@ -15,9 +17,11 @@ export class HistoryComponent implements OnInit {
   reports: Report[] = [];
 
   selectedReport?: Report;
+  renderedMarkdown: SafeHtml = '';
 
   constructor(
-    private reportService: ApiService
+    private reportService: ApiService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -35,7 +39,13 @@ export class HistoryComponent implements OnInit {
   }
 
   viewReport(report: Report): void {
+
     this.selectedReport = report;
+  
+    this.renderedMarkdown =
+      this.sanitizer.bypassSecurityTrustHtml(
+        marked.parse(report.content || '') as string
+      );
   }
 
   closeModal(): void {

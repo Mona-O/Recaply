@@ -1,8 +1,6 @@
-<!-- history.component.html -->
-
 <div class="container">
 
-    <h1>Historique des comptes-rendus</h1>
+    <h1>My Reports</h1>
   
     <div
       class="report-card"
@@ -51,19 +49,22 @@
     *ngIf="selectedReport">
   
     <div class="modal">
+      <button
+        class="close-button"
+        (click)="closeModal()">
+        X
+  </button>
   
       <h2>
         {{ selectedReport.filename }}
       </h2>
   
-      <pre>
-  {{ selectedReport.content }}
-      </pre>
+      <div
+        class="markdown-content"
+        [innerHTML]="renderedMarkdown">
+      </div>
   
-      <button
-        (click)="closeModal()">
-        Fermer
-      </button>
+      
   
     </div>
   
