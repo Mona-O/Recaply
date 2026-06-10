@@ -1,8 +1,6 @@
-<!-- history.component.html -->
-
 <div class="container">
 
-    <h1>Historique des comptes-rendus</h1>
+    <h1>My Reports</h1>
   
     <div
       class="report-card"
@@ -10,9 +8,29 @@
   
       <div>
   
-        <h3>
-          {{ report.filename }}
-        </h3>
+        <div *ngIf="editingReportId !== report.id">
+          <h3>{{ report.title }}</h3>
+        
+          <button (click)="startEditing(report)">
+            ✏️
+          </button>
+        </div>
+        
+        <div *ngIf="editingReportId === report.id">
+        
+          <input
+            [(ngModel)]="editedTitle"
+            type="text">
+        
+          <button (click)="saveTitle(report)">
+            ✓
+          </button>
+        
+          <button (click)="cancelEditing()">
+            ✕
+          </button>
+        
+        </div>
   
         <p>
           {{ report.created_at | date:'dd/MM/yyyy HH:mm' }}
@@ -25,19 +43,19 @@
         <button
           class="view-btn"
           (click)="viewReport(report)">
-          Consulter
+          View
         </button>
   
         <button
           class="download-btn"
           (click)="downloadReport(report)">
-          Télécharger
+          Download
         </button>
   
         <button
           class="delete-btn"
           (click)="deleteReport(report.id)">
-          Supprimer
+          Delete
         </button>
   
       </div>
@@ -51,19 +69,22 @@
     *ngIf="selectedReport">
   
     <div class="modal">
+      <button
+        class="close-button"
+        (click)="closeModal()">
+        X
+  </button>
   
       <h2>
-        {{ selectedReport.filename }}
+        {{ selectedReport.title }}
       </h2>
   
-      <pre>
-  {{ selectedReport.content }}
-      </pre>
+      <div
+        class="markdown-content"
+        [innerHTML]="renderedMarkdown">
+      </div>
   
-      <button
-        (click)="closeModal()">
-        Fermer
-      </button>
+      
   
     </div>
   

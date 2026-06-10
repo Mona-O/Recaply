@@ -12,8 +12,8 @@ class LLMService:
     TRANSCRIPTION de la réunion est:
     {text}
 
-    Donne un compte rendu structuré , en markdown, pour une gestion de connaissance d'entreprise, adapté à des ingenieurs logiciels.
-
+    Donne un compte-rendu structuré , en markdown, pour une gestion de connaissance d'entreprise, adapté à des ingenieurs logiciels.
+    N'envois pas de phrase explicative et recapitulative, répond uniquement avec le markdown .
     """
 
     def generate_report_LLM(self,transcript):
@@ -24,6 +24,4 @@ class LLMService:
                 {"role": "user", "content": prompt}
             ]
         )
-       
-        
         return response.choices[0].message.content
