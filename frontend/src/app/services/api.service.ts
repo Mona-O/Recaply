@@ -33,6 +33,15 @@ export class ApiService {
       `${this.baseUrl}/deleteReport/${id}`
     );
   }
-
+  updateReportTitle(
+    id: number,
+    title: string
+  ): Observable<any> {
+  
+    return this.http.patch(
+      `${this.baseUrl}/editReport/${id}`,
+      { title }
+    );
+  }
   
 }

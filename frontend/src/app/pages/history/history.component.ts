@@ -4,11 +4,11 @@ import { ApiService } from '../../services/api.service';
 import { Report } from '../../models/report.model';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { marked } from 'marked';
-
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-history',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,FormsModule],
   templateUrl: './history.component.html',
   styleUrls: ['./history.component.css']
 })
@@ -18,7 +18,8 @@ export class HistoryComponent implements OnInit {
 
   selectedReport?: Report;
   renderedMarkdown: SafeHtml = '';
-
+  editingReportId?: number;
+  editedTitle = '';
   constructor(
     private reportService: ApiService,
     private sanitizer: DomSanitizer
@@ -37,7 +38,34 @@ export class HistoryComponent implements OnInit {
         }
       });
   }
+  startEditing(report: Report): void {
+    this.editingReportId = report.id;
+    this.editedTitle = report.title;
+  }
+  saveTitle(report: Report): void {
 
+    this.reportService
+      .updateReportTitle(
+        report.id,
+        this.editedTitle
+      )
+      .subscribe({
+  
+        next: () => {
+  
+          report.title = this.editedTitle;
+  
+          this.editingReportId = undefined;
+        },
+  
+        error: (err) => {
+          console.error(err);
+        }
+      });
+  }
+  cancelEditing(): void {
+    this.editingReportId = undefined;
+  }
   viewReport(report: Report): void {
 
     this.selectedReport = report;
@@ -67,7 +95,7 @@ export class HistoryComponent implements OnInit {
 
     a.href = url;
 
-    a.download = report.filename;
+    a.download = report.title;
 
     a.click();
 

@@ -2,7 +2,7 @@
 
 export interface Report {
     id: number;
-    filename: string;
+    title: string;
     content: string;
     created_at: string;
   }

@@ -7,6 +7,7 @@ from config.database import get_db
 import services.database_service as db_service
 import datetime
 import os
+from models.update_report_request import UpdateReportRequest
 from sqlalchemy.ext.asyncio import AsyncSession
 from datetime import datetime
 import traceback
@@ -59,3 +60,21 @@ async def delete_report(
         raise HTTPException(status_code=404, detail="Report not found")
 
     return {"status": "deleted"}
+
+@router.patch("/editReport/{report_id}")
+async def update_report_title(
+    report_id: int,
+    data: UpdateReportRequest,
+    db: AsyncSession = Depends(get_db)
+):
+
+    report = await db_service.update_report(db,report_id,data.title)
+
+    if report is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Report not found"
+        )
+
+
+    return {"status": "updated"}
