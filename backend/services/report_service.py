@@ -1,4 +1,4 @@
-
+print("Report service SERVICE LOADED")
 class ReportService:
     def __init__(self, audio_service, llm_service):
         self.audio_service = audio_service

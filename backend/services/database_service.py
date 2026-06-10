@@ -1,12 +1,17 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, delete
 from models.report import Report
-
+print("DATABASE SERVICE LOADED")
 async def add_report(db: AsyncSession, title: str, content: str) -> Report:
+    print("1")
     report = Report(title=title, content=content)
+    print("2")
     db.add(report)
+    print("3")
     await db.commit()
+    print("4")
     await db.refresh(report)
+    print("5")
     return report
 
 async def get_report(db: AsyncSession, report_id: int) -> Report | None:

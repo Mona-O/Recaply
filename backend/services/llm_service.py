@@ -24,6 +24,4 @@ class LLMService:
                 {"role": "user", "content": prompt}
             ]
         )
-       
-        
         return response.choices[0].message.content

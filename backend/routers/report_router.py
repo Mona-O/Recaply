@@ -9,7 +9,7 @@ import datetime
 import os
 from sqlalchemy.ext.asyncio import AsyncSession
 from datetime import datetime
-
+import traceback
 router = APIRouter()
 
 audio_service = AudioService()
@@ -23,8 +23,8 @@ async def create_report(
     db: AsyncSession = Depends(get_db)
 ):
     try:
-        result = await report_service.generate_report(file)
-
+        result = report_service.generate_report(file)
+        print("trying to add db")
         await db_service.add_report(
             db=db,
             title=f"report_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
@@ -33,8 +33,9 @@ async def create_report(
 
         return {"status": "ok"}
 
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    except Exception:
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail="Erreur DB")
 
 
 @router.get("/getReports")
